@@ -1,0 +1,27 @@
+---
+title: "bis620"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{bis620}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(bis620.2022)
+```
+
+Background and Motivation
+
+According to the data shown by the National Cancer Institute (NIH), breast cancer has become the most common type of cancer in women in the United States, except for skin cancers. With 290,560 expected new cases in 2022 and the large existing diagnosed population, we believe having a statistical model that can predict the type of breast cancer based on the features of the digitized images will be beneficial for making effective diagnosis in the future. 
+Traditional clinical tests used to determine whether sampled breast tissue is benign are also time-consuming. Taking into consideration the fact that many hospitals during the pandemic are short-staffed, we believe that a predictive model using the values calculated from FNA images would be able to provide a cost-effective reference for doctors when diagnosing patients with breast related concerns.
+The dataset that we are using for this project is called the Breast Cancer Wisconsin (Diagnostic) Data Set. It was originally published by the UCI Center for Machine Learning and Intelligent Systems, and we downloaded it from Kaggle.
+The dataset contains 568 entries. Each entry is associated with a unique identifier and a categorical variable Diagnosis, encoded as either “B” or “M”, representing whether the type of the sample breast tissue is  “benign” or “malignant”. There are ten real-valued attributes and are computed from the digitized images of fine needle aspirates (FNA) of sampled breast tissues. These attributes include radius, texture, perimeter, area, smoothness, compactness, concavity, concave points, symmetry, and fractal dimension and are recorded for each of the entries. For each of the ten real-valued attributes, there are three characteristics of interest—mean, standard error, and worst (largest mean value). The attributes and their corresponding characteristics capture the features of the FDA of the sampled breast tissues, and could potentially be reliable predictors for diagnosis type classification.
+In this project, we are interested in two aspects of the dataset: which of the three characteristics—mean, standard error, and worst (largest mean value)—for the ten real-valued features will yield a model with better accuracy in predicting the breast cancer diagnosis type; which of the ten attributes are better predictors than the others.
