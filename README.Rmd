@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 # bis620.2022
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/xinyueq/bis620.2022/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/xinyueq/bis620.2022/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/xinyueq/bis620.2022/branch/main/graph/badge.svg)](https://app.codecov.io/gh/xinyueq/bis620.2022?branch=main)
-[![Test coverage](https://github.com/xinyueq/bis620.2022/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/xinyueq/bis620.2022/actions/workflows/test-coverage.yaml)
+[![R-CMD-check](https://github.com/tianyi-chu/bis620.2022/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tianyi-chu/bis620.2022/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/tianyi-chu/bis620.2022/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tianyi-chu/bis620.2022?branch=main)
+[![Test coverage](https://github.com/tianyi-chu/bis620.2022/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/tianyi-chu/bis620.2022/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
 The goal of bis620.2022 is to provide a type of visualization for a toy accelerometry dataset form the UKBiobank.
