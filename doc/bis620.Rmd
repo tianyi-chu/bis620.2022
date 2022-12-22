@@ -1,0 +1,92 @@
+---
+title: "bis620"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{bis620}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(bis620.2022)
+```
+## Team Member
+#### Tianyi Chu (tc792)
+#### Xinyue Qie (xq47)
+
+## Background and Motivation
+
+&nbsp;&nbsp;&nbsp;&nbsp;According to the data shown by the National Cancer Institute (NIH), breast cancer has become the most common type of cancer in women in the United States, except for skin cancers. With 290,560 expected new cases in 2022 and the large existing diagnosed population, we believe having a statistical model that can predict the type of breast cancer based on the features of the digitized images will be beneficial for making effective diagnosis in the future. 
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;Traditional clinical tests used to determine whether sampled breast tissue is benign are also time-consuming. Taking into consideration the fact that many hospitals during the pandemic are short-staffed, we believe that a predictive model using the values calculated from FNA images would be able to provide a cost-effective reference for doctors when diagnosing patients with breast related concerns.
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+The dataset that we are using for this project is called the Breast Cancer Wisconsin (Diagnostic) Data Set. It was originally published by the UCI Center for Machine Learning and Intelligent Systems, and we downloaded it from Kaggle.
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+The dataset contains 568 entries. Each entry is associated with a unique identifier and a categorical variable Diagnosis, encoded as either “B” or “M”, representing whether the type of the sample breast tissue is  “benign” or “malignant”. There are ten real-valued attributes and are computed from the digitized images of fine needle aspirates (FNA) of sampled breast tissues. These attributes include radius, texture, perimeter, area, smoothness, compactness, concavity, concave points, symmetry, and fractal dimension and are recorded for each of the entries. For each of the ten real-valued attributes, there are three characteristics of interest—mean, standard error, and worst (largest mean value). The attributes and their corresponding characteristics capture the features of the FDA of the sampled breast tissues, and could potentially be reliable predictors for diagnosis type classification.
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+In this project, we are interested in two aspects of the dataset: which of the three characteristics—mean, standard error, and worst (largest mean value)—for the ten real-valued features will yield a model with better accuracy in predicting the breast cancer diagnosis type; which of the ten attributes are better predictors than the others.
+
+## Research Question
+&nbsp;&nbsp;&nbsp;&nbsp;
+For the model that has the highest prediction accuracy among all three models trained on the three datasets, we hypothesize that the attributes radius, smoothness, and concavity will be statistically significant predictors for the model and will be more significant than the other attributes in terms of predicting the type of breast cancer diagnosis.
+
+## Data Cleaning and Exploration
+
+&nbsp;&nbsp;&nbsp;&nbsp;
+The *Breast Cancer Wisconsin (Diagnostic) Data Set* is well-formatted and there are no missing values. Since we are interested in using the ten real-valued features to predict the breast cancer diagnosis type, we will not include the unique identifier for each of the entries in the dataset. We got rid of the id column of the dataset in data cleaning.
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+The ten real-valued attributes computed from the digitized images of fine needle aspirates (FNA) of sampled breast tissues and their corresponding mean, standard error, and worst (largest mean value) gives us a total of 30 feature columns in the original dataset. According to our proposed research question, we are interested in which of the three characteristics—mean, standard error, or worst—for the ten features gives the best prediction for the breast cancer diagnosis type. Therefore, we first separated the original dataset into three datasets, where each of them only contains the mean, or the standard error, or the worst for the ten features.
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+We also encoded the original categorical variable “B” as “1” and “M” as “0” so that it is easier to fit the machine learning models and we can better validate the model performance on the dataset. We did not standardize the data, because for logistic regressions standardization of the data does not make a difference in terms of model results.
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+The first thing that we did is to visualize the data distribution. As the pie chart shown below, we noticed that there are more benign records (356 data points) than malignant records (212 data points). This is not ideal for fitting logistic regression models, because for classification models we genuinely want a relatively balanced number of each class to reduce the bias in the model. 
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+We also observed the distribution of the attribute column in each of the mean, standard error, and worst dataset by making histograms for each of the columns. The results suggest that there are no obvious differences between the histograms for the three datasets. The majority of the histograms look relatively normal, which is ideal for training regression models. None of the three dataset contains more outliers than the others or have more obvious abnormal patterns.
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+In terms of coding, we made two functions to help us do visualization and make the package more generalizable. The first function can subset the dataset based on the condition and plot a pie chart to indicate the number of benign records versus malignant records in that subset. The other function takes in a column of a dataframe and outputs the histogram for that column. 
+We trained three logistic regression models on all ten real-valued features for all of the mean value dataset, the standard error dataset, and the worst value dataset. We validated the model performance by cross validation. In particular, we splitted datasets into training and testing sets. The logistic regression models are trained on the training dataset and the model accuracy is computed using the testing data.
+
+## Analysis
+&nbsp;&nbsp;&nbsp;&nbsp;
+With the trained logistic models, we made several observations based on the results of the logistic regression models. 
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+In general, we saw that the model accuracy for all three are fairly high; even with the randomness between different trials, the model accuracy for all three models trained on the mean value dataset, the standard error dataset, and the worst value dataset are above 0.85 on average.
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+The accuracy for the model trained with the worst value for the ten real-valued features of the FDA of the sampled breast tissues surpasses the accuracy for the models trained on the other two datasets. Therefore, the measurement of the worst value of ten features for the sample tissue is the best among all three characteristics in terms of predicting the breast cancer diagnosis type.
+<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+	For the model trained with the dataset that contains the worst measurements of the ten real-valued features, none of the coefficients associated with the three attributes radius, smoothness, and concavity that we proposed in the research hypothesis is statistically significant. On top of that, none of the ten features in the logistic regression model trained on the worst value dataset is significantly significant. However, certain features like radius seem to be more significant than the others.
+	<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+	The p-tests of the logistic regression model results rejected our hypothesis. We can only conclude that logistic regression models trained on the worst value dataset outperformed the other two models when averaging the test accuracy over multiple trials. However, we cannot conclude which of the ten real-valued features of the FDA images are better predictors than the others. 	
+&nbsp;&nbsp;&nbsp;&nbsp;
+	In addition to the test accuracy, we also used confusion matrices to assess the model performance. For all three models trained on the three datasets, we observed that the rate of false negatives is roughly two times higher than the rate of false positives. This suggests that when the logistic regression model mis-classifies a type of breast cancer diagnosis, it is more likely to classify a malignant diagnosis as benign than vise versa.
+	
+## Interpretation and conclusions
+&nbsp;&nbsp;&nbsp;&nbsp;
+We did see that the model accuracies are considerably high. This could potentially be a consequence of having a fairly small dataset. The Breast Cancer Wisconsin (Diagnostic) Data Set that we used for this project contains only 568 data points, so as a result the test sets will also be small. Therefore, to further improve the model performance and get more reliable validation results, we believe that it will be really helpful if we can get more data points, especially more malignant data points. With a larger dataset that contains a relatively balanced number of different classes, we can have a larger training set so that the model accuracy will improve and we can have more data to test the model as well.
+	<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+	In terms of the fact that the model trained on the worst value dataset yielded the best results, we think that it could be that the worst value matters more than the other characteristics for diagnosis prediction. Even though the mean value seems to capture more information of all of the data mathematically, the worst (largest mean) is more deterministics for whether a tissue is malignant (cancerous) due to the nature of cancerous cells.
+		<br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+	Besides, the fact that none of the ten features are statistically significantly associated with the type of breast cancer diagnosis is also reasonable. Diagnosing breast cancer is difficult and health care professionals need years of training to diagnose the disease accurately. Certain measurements will not be definite strong predictors for the disease. We do see that all the ten features in the dataset contribute to the prediction. Hence, including more attributes and measurements of the FDA image could potentially improve the prediction accuracy and might lead to better models that can assist oncologists in the future.
+
+
